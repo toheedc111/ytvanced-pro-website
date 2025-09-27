@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Enhanced dark mode styles for better contrast */
+.dark {
+  color-scheme: dark;
+}
+
+/* Ensure proper background transitions */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Improved text contrast */
+.dark .text-gray-700 {
+  color: rgb(209 213 219) !important; /* gray-300 */
+}
+
+.dark .text-gray-600 {
+  color: rgb(156 163 175) !important; /* gray-400 */
+}
+
+.dark .text-gray-500 {
+  color: rgb(107 114 128) !important; /* gray-500 */
+}
+
+/* Enhanced background colors for better visibility */
+.dark .bg-gray-50 {
+  background-color: rgb(17 24 39) !important; /* gray-900 */
+}
+
+.dark .bg-gray-100 {
+  background-color: rgb(31 41 55) !important; /* gray-800 */
+}
+
+.dark .bg-white {
+  background-color: rgb(31 41 55) !important; /* gray-800 */
+}
+
+/* Better border colors in dark mode */
+.dark .border-gray-200 {
+  border-color: rgb(75 85 99) !important; /* gray-600 */
+}
+
+.dark .border-gray-300 {
+  border-color: rgb(75 85 99) !important; /* gray-600 */
+}
+
+/* Enhanced hover states */
+.dark .hover\:bg-gray-50:hover {
+  background-color: rgb(55 65 81) !important; /* gray-700 */
+}
+
+.dark .hover\:bg-gray-100:hover {
+  background-color: rgb(55 65 81) !important; /* gray-700 */
+}
+
+/* Ensure smooth transitions for theme switching */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dark .text-gray-600 {
+    color: rgb(229 231 235) !important; /* gray-200 */
+  }
+  
+  .dark .text-gray-500 {
+    color: rgb(209 213 219) !important; /* gray-300 */
+  }
+}
