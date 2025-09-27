@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <!-- YouTube red background -->
+  <circle cx="90" cy="90" r="80" fill="#FF0000"/>
+  
+  <!-- Play button triangle in white -->
+  <polygon points="65,55 65,125 125,90" fill="#FFFFFF"/>
+</svg>
