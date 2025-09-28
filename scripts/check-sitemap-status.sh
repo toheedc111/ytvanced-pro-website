@@ -105,6 +105,8 @@ fi
 
 echo "3. Submit sitemap to Google Search Console manually at:"
 echo "   https://search.google.com/search-console/sitemaps"
+echo "   ⚠ Note: Google deprecated automatic sitemap ping in June 2023"
+echo "   You must manually reload sitemaps in Google Search Console"
 
 echo "4. Monitor sitemap status in Google Search Console"
 
