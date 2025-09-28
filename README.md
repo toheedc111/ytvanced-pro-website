@@ -198,7 +198,8 @@ The website includes scripts to automatically update search engines with new con
 
 1. **Update Script**: `scripts/update-search-console.sh`
    - Updates sitemap dates
-   - Pings Google and Bing search consoles
+   - ⚠ **Note**: Google deprecated sitemap ping in June 2023
+   - Pings Bing search console (still supported)
 
 2. **Cron Setup**: `scripts/setup-cron-job.sh`
    - Sets up hourly cron job for automatic updates
@@ -217,6 +218,12 @@ chmod +x scripts/*.sh
 # Check sitemap status
 ./scripts/check-sitemap-status.sh
 ```
+
+**Important**: Since Google deprecated automatic sitemap notifications, you must manually reload sitemaps in Google Search Console:
+1. Visit [Google Search Console](https://search.google.com/search-console)
+2. Navigate to "Sitemaps" section
+3. Select your sitemap: `https://ytvanced.pro/sitemap.xml`
+4. Click "Reload" to force Google to re-read your sitemap
 
 For detailed instructions, see [GOOGLE_SEARCH_CONSOLE.md](GOOGLE_SEARCH_CONSOLE.md)
 
