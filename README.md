@@ -152,52 +152,81 @@ src/
 
 ## 🚀 Deployment
 
-This website is deployed on **Vercel** with **Cloudflare** optimization:
+This website is built with React and Vite, and deployed to Vercel with Cloudflare optimization.
 
-- **Platform**: Vercel
-- **Domain**: ytvanced.pro
-- **CDN**: Cloudflare
-- **SSL**: Full (strict) encryption
-- **Performance**: Optimized for Core Web Vitals
+### Production URL
+- Primary: [ytvanced.pro](https://ytvanced.pro)
+- Vercel: [ytvanced-pro-website.vercel.app](https://ytvanced-pro-website.vercel.app)
 
-### Deploy Your Own
-
+### Deployment Process
 ```bash
-# Install Vercel CLI
-npm install -g vercel
+# Install dependencies
+npm install
+
+# Build for production
+npm run build
 
 # Deploy to Vercel
-vercel --prod
+npx vercel --prod
 ```
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
+## 🔍 Google Search Console Setup
 
-## 📊 Analytics & Tracking
+The website includes built-in support for Google Search Console verification and automatic updates.
 
-### Key Metrics to Track
-- Download button clicks
-- Page views and bounce rate
-- Mobile vs desktop usage
-- Geographic distribution
-- Search keyword performance
+### Verification Methods
 
-### Conversion Goals
-- APK download completion
-- Installation guide engagement
-- Return visitor rate
+1. **Meta Tag Verification** (Already added to index.html):
+   ```html
+   <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE_HERE" />
+   ```
+   Replace `YOUR_GOOGLE_VERIFICATION_CODE_HERE` with your actual verification code from Google Search Console.
 
-## 🔧 Customization
+2. **HTML File Verification**:
+   A verification file is available at `public/google1234567890abc.html`. 
+   Rename this file to match your verification code and update the content accordingly.
 
-### Adding New APK Versions
-1. Update the downloads array in `Download.jsx`
-2. Add version info and download links
-3. Update changelog and features
+### Automatic Updates
 
-### SEO Improvements
-1. Regular content updates
-2. New blog posts about YouTube features
-3. User guides and tutorials
-4. FAQ sections for common issues
+The website includes scripts to automatically update search engines with new content:
+
+1. **Update Script**: `scripts/update-search-console.sh`
+   - Updates sitemap dates
+   - Pings Google and Bing search consoles
+
+2. **Cron Setup**: `scripts/setup-cron-job.sh`
+   - Sets up hourly cron job for automatic updates
+
+To set up automatic hourly updates:
+```bash
+# Make scripts executable
+chmod +x scripts/*.sh
+
+# Set up cron job
+./scripts/setup-cron-job.sh
+```
+
+For detailed instructions, see [GOOGLE_SEARCH_CONSOLE.md](GOOGLE_SEARCH_CONSOLE.md)
+
+## 📈 Analytics Setup (Optional)
+
+The website includes built-in support for Google Analytics and other analytics providers.
+
+### Google Analytics
+
+1. **Add Tracking ID**:
+   - Add your Google Analytics tracking ID to `public/analytics.js`
+
+2. **Enable Tracking**:
+   - Ensure `public/analytics.js` is included in your HTML template
+
+### Other Analytics Providers
+
+1. **Add Tracking Code**:
+   - Add your tracking code to `public/analytics.js`
+
+2. **Enable Tracking**:
+   - Ensure `public/analytics.js` is included in your HTML template
 
 ## 📞 Support
 
