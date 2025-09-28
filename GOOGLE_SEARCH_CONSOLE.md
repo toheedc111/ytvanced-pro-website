@@ -62,10 +62,18 @@ This repository includes scripts to automatically update search engines:
 ./scripts/setup-cron-job.sh
 ```
 
-The automatic update script will:
+⚠ **Important Note About Google Search Console**:
+As of June 2023, Google has deprecated the sitemap ping functionality. The automatic notification to Google Search Console no longer works. You must manually reload sitemaps in Google Search Console:
+
+1. Visit [Google Search Console](https://search.google.com/search-console)
+2. Navigate to "Sitemaps" section
+3. Select your sitemap: `https://ytvanced.pro/sitemap.xml`
+4. Click "Reload" to force Google to re-read your sitemap
+
+The script will still:
 - Update sitemap lastmod dates to current date
-- Ping Google Search Console
-- Ping Bing Search Console
+- Ping Bing Search Console (still supported)
+- Provide guidance for manual Google Search Console updates
 
 ### 5. Monitor Performance
 
