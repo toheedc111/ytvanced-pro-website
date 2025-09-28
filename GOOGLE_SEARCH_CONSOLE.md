@@ -19,7 +19,15 @@ This guide explains how to set up Google Search Console for the YouTube Vanced w
 
 ### 2. Verify Ownership
 
-#### Method 1: HTML Meta Tag (Recommended)
+#### Method 1: Environment Variable (Recommended)
+1. In Google Search Console, select "HTML tag" verification method
+2. Copy the verification code that looks like: `google-site-verification: google1234567890abc.html`
+3. Add the verification code to `.env.production`:
+   ```
+   VITE_GOOGLE_SEARCH_CONSOLE_VERIFICATION=your_actual_verification_code_here
+   ```
+
+#### Method 2: HTML Meta Tag
 1. In Google Search Console, select "HTML tag" verification method
 2. Copy the verification code that looks like: `google-site-verification: google1234567890abc.html`
 3. Update the meta tag in `index.html`:
@@ -27,7 +35,7 @@ This guide explains how to set up Google Search Console for the YouTube Vanced w
    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" />
    ```
 
-#### Method 2: HTML File
+#### Method 3: HTML File
 1. Download the HTML verification file from Google Search Console
 2. Rename `public/google1234567890abc.html` to match the filename provided by Google
 3. Upload to your site (already configured in this repository)

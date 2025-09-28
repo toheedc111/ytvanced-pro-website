@@ -176,13 +176,19 @@ The website includes built-in support for Google Search Console verification and
 
 ### Verification Methods
 
-1. **Meta Tag Verification** (Already added to index.html):
+1. **Environment Variable (Recommended)**:
+   Add your verification code to `.env.production`:
+   ```
+   VITE_GOOGLE_SEARCH_CONSOLE_VERIFICATION=your_actual_verification_code_here
+   ```
+
+2. **Meta Tag Verification** (Already added to index.html):
    ```html
    <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE_HERE" />
    ```
    Replace `YOUR_GOOGLE_VERIFICATION_CODE_HERE` with your actual verification code from Google Search Console.
 
-2. **HTML File Verification**:
+3. **HTML File Verification**:
    A verification file is available at `public/google1234567890abc.html`. 
    Rename this file to match your verification code and update the content accordingly.
 
