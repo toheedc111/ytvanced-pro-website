@@ -22,7 +22,7 @@ echo "Project root: $PROJECT_ROOT"
 
 # Update the sitemap lastmod dates to current date
 echo "Updating sitemap.xml with current date..."
-CURRENT_DATE=$(date -u +"%Y-%m-%d")
+CURRENT_DATE=$(date +"%Y-%m-%d")
 
 # Create a temporary file
 TEMP_SITEMAP="$PROJECT_ROOT/temp_sitemap.xml"
