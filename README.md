@@ -203,6 +203,9 @@ The website includes scripts to automatically update search engines with new con
 2. **Cron Setup**: `scripts/setup-cron-job.sh`
    - Sets up hourly cron job for automatic updates
 
+3. **Status Checker**: `scripts/check-sitemap-status.sh`
+   - Verifies sitemap status and provides recommendations
+
 To set up automatic hourly updates:
 ```bash
 # Make scripts executable
@@ -210,6 +213,9 @@ chmod +x scripts/*.sh
 
 # Set up cron job
 ./scripts/setup-cron-job.sh
+
+# Check sitemap status
+./scripts/check-sitemap-status.sh
 ```
 
 For detailed instructions, see [GOOGLE_SEARCH_CONSOLE.md](GOOGLE_SEARCH_CONSOLE.md)
