@@ -10,7 +10,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "vercel --prod",
-    "deploy:preview": "vercel"
+    "deploy:preview": "vercel",
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "update-sitemap": "npm run generate-sitemap && echo '✅ Sitemap updated! Remember to manually submit to Google Search Console.'",
+    "prebuild": "node scripts/vercel/generate-sitemap.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.8",

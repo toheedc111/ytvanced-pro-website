@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+// import { sitemapPlugin } from './vite-sitemap-plugin.js'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react()], // Removed sitemapPlugin to avoid build errors
   
   // Production optimizations
   build: {

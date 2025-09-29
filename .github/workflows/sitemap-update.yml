@@ -1,0 +1,132 @@
+name: Hourly Sitemap Update
+
+on:
+  schedule:
+    # Run every hour at the top of the hour
+    - cron: '0 * * * *'
+  workflow_dispatch: # Allow manual triggering
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'src/pages/**'
+      - 'src/App.jsx'
+      - 'scripts/generate-sitemap.js'
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 🔄 Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: 📦 Install dependencies
+      run: npm ci
+
+    - name: 🗺️ Generate fresh sitemap
+      run: |
+        echo "🚀 Generating sitemap..."
+        npm run generate-sitemap
+        
+        # Check if sitemap was generated
+        if [ -f "public/sitemap.xml" ]; then
+          echo "✅ Sitemap generated successfully"
+          echo "📊 Sitemap contains $(grep -c '<url>' public/sitemap.xml) URLs"
+          echo "📅 Generated on: $(date)"
+        else
+          echo "❌ Sitemap generation failed"
+          exit 1
+        fi
+
+    - name: 🔍 Check for sitemap changes
+      id: check-changes
+      run: |
+        if git diff --quiet public/sitemap.xml; then
+          echo "No changes detected in sitemap"
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected in sitemap"
+          echo "changed=true" >> $GITHUB_OUTPUT
+          
+          # Show the changes
+          echo "📋 Changes detected:"
+          git diff public/sitemap.xml
+        fi
+
+    - name: 📤 Commit and push sitemap updates
+      if: steps.check-changes.outputs.changed == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        git add public/sitemap.xml
+        git commit -m "🗺️ Auto-update sitemap - $(date '+%Y-%m-%d %H:%M UTC')"
+        git push
+
+    - name: 🔔 Notify search engines
+      if: steps.check-changes.outputs.changed == 'true'
+      run: |
+        echo "🔔 Notifying search engines..."
+        
+        # Ping Bing (still supports automatic ping)
+        BING_PING_URL="http://www.bing.com/ping?sitemap=https://ytvanced.pro/sitemap.xml"
+        if curl -s "$BING_PING_URL" > /dev/null; then
+          echo "✅ Successfully notified Bing"
+        else
+          echo "⚠️ Failed to notify Bing"
+        fi
+        
+        # Ping Yandex (still supports automatic ping)
+        YANDEX_PING_URL="https://webmaster.yandex.com/ping?sitemap=https://ytvanced.pro/sitemap.xml"
+        if curl -s "$YANDEX_PING_URL" > /dev/null; then
+          echo "✅ Successfully notified Yandex"
+        else
+          echo "⚠️ Failed to notify Yandex"
+        fi
+        
+        echo ""
+        echo "📋 Manual action required for Google:"
+        echo "1. Visit: https://search.google.com/search-console"
+        echo "2. Navigate to 'Sitemaps' section"
+        echo "3. Reload sitemap: https://ytvanced.pro/sitemap.xml"
+
+    - name: 🚀 Trigger Vercel deployment
+      if: steps.check-changes.outputs.changed == 'true' && secrets.VERCEL_DEPLOY_HOOK
+      run: |
+        echo "🚀 Triggering Vercel deployment..."
+        curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
+        echo "✅ Deployment hook triggered"
+
+    - name: 📊 Summary
+      run: |
+        echo "🎯 Sitemap Update Summary"
+        echo "========================"
+        echo "📅 Run time: $(date)"
+        echo "🔄 Changes detected: ${{ steps.check-changes.outputs.changed }}"
+        echo "📍 Sitemap URL: https://ytvanced.pro/sitemap.xml"
+        
+        if [ -f "public/sitemap.xml" ]; then
+          echo "📊 Total URLs: $(grep -c '<url>' public/sitemap.xml)"
+          echo "📝 Last modified: $(grep -o '<lastmod>[^<]*</lastmod>' public/sitemap.xml | head -1 | sed 's/<[^>]*>//g')"
+        fi
+        
+        echo ""
+        echo "🔍 Next steps:"
+        if [ "${{ steps.check-changes.outputs.changed }}" == "true" ]; then
+          echo "✅ Sitemap updated and deployed"
+          echo "📋 Remember to manually update Google Search Console"
+        else
+          echo "ℹ️ No updates needed - sitemap is current"
+        fi

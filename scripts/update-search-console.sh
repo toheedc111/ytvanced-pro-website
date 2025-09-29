@@ -21,44 +21,64 @@ cd "$PROJECT_ROOT"
 
 echo "Project root: $PROJECT_ROOT"
 
-# Update the sitemap lastmod dates to current date
-echo "Updating sitemap.xml with current date..."
-CURRENT_DATE=$(date +"%Y-%m-%d")
-
-# Create a temporary file
-TEMP_SITEMAP="$PROJECT_ROOT/temp_sitemap.xml"
-
-# Update lastmod dates in sitemap.xml
-sed "s/<lastmod>[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}<\/lastmod>/<lastmod>$CURRENT_DATE<\/lastmod>/g" \
-    "$PROJECT_ROOT/public/sitemap.xml" > "$TEMP_SITEMAP"
-
-# Replace the original sitemap with updated version
-mv "$TEMP_SITEMAP" "$PROJECT_ROOT/public/sitemap.xml"
-
-echo -e "${GREEN}Sitemap updated with current date: $CURRENT_DATE${NC}"
+# Generate new sitemap using the Node.js script
+echo "Generating fresh sitemap with current timestamps..."
+if command -v node >/dev/null 2>&1; then
+    node scripts/generate-sitemap.js
+    echo -e "${GREEN}Sitemap regenerated successfully!${NC}"
+else
+    echo -e "${RED}Node.js not found. Please install Node.js to generate sitemap.${NC}"
+    exit 1
+fi
 
 # Google Search Console Notification (Deprecated)
-echo "Notifying Google Search Console..."
-echo -e "${YELLOW}⚠ Google deprecated sitemap ping in June 2023${NC}"
+echo ""
+echo -e "${YELLOW}⚠️  Google Search Console Manual Update Required${NC}"
+echo -e "${YELLOW}Google deprecated automatic sitemap ping in June 2023${NC}"
 echo "  See: https://developers.google.com/search/blog/2023/06/sitemaps-lastmod-ping"
-echo "  Recommendation: Submit sitemap manually in Google Search Console"
+echo ""
 
-# Bing Search Console Notification
+# Bing Search Console Notification (Still works)
 echo "Notifying Bing Search Console..."
 BING_PING_URL="http://www.bing.com/ping?sitemap=https://ytvanced.pro/sitemap.xml"
 
 # Use curl to ping Bing
 if command -v curl >/dev/null 2>&1; then
-    curl -s "$BING_PING_URL" > /dev/null
-    echo -e "${GREEN}Successfully notified Bing Search Console${NC}"
+    if curl -s "$BING_PING_URL" > /dev/null; then
+        echo -e "${GREEN}✅ Successfully notified Bing Search Console${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Failed to notify Bing Search Console${NC}"
+    fi
 else
     echo -e "${YELLOW}curl not found, skipping Bing ping${NC}"
 fi
 
-echo -e "${GREEN}Google Search Console Update Process Completed!${NC}"
+# Yandex Search Console Notification (Still works)
+echo "Notifying Yandex Search Console..."
+YANDEX_PING_URL="https://webmaster.yandex.com/ping?sitemap=https://ytvanced.pro/sitemap.xml"
+
+if command -v curl >/dev/null 2>&1; then
+    if curl -s "$YANDEX_PING_URL" > /dev/null; then
+        echo -e "${GREEN}✅ Successfully notified Yandex Search Console${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Failed to notify Yandex Search Console${NC}"
+    fi
+else
+    echo -e "${YELLOW}curl not found, skipping Yandex ping${NC}"
+fi
+
 echo ""
-echo -e "${BLUE}Next steps:${NC}"
-echo "1. Visit Google Search Console: https://search.google.com/search-console"
-echo "2. Navigate to 'Sitemaps' section"
-echo "3. Select your sitemap: https://ytvanced.pro/sitemap.xml"
-echo "4. Click 'Reload' or wait for automatic crawl"
+echo -e "${GREEN}🎉 Search Console Update Process Completed!${NC}"
+echo ""
+echo -e "${BLUE}📋 Manual Steps Required for Google Search Console:${NC}"
+echo "1. 🌐 Visit: https://search.google.com/search-console"
+echo "2. 📂 Navigate to 'Sitemaps' section"
+echo "3. 🔄 Find your sitemap: https://ytvanced.pro/sitemap.xml"
+echo "4. ⚡ Click 'Test' then 'Submit' or 'Reload' to refresh"
+echo "5. ⏰ Wait 24-48 hours for Google to process the updated sitemap"
+echo ""
+echo -e "${BLUE}💡 Pro Tips:${NC}"
+echo "• Run this script after major content updates"
+echo "• Check Google Search Console weekly for indexing status"
+echo "• Monitor 'Coverage' reports for any crawl errors"
+echo "• Use 'URL Inspection' tool to test individual pages"
