@@ -1,0 +1,16 @@
+name = "ytvanced-pro-sitemap-cron"
+main = "cloudflare/worker.js"
+compatibility_date = "2024-10-01"
+
+[triggers]
+crons = ["0 * * * *"]
+
+[vars]
+# Paste your Vercel Deploy Hook below. Keep it secret.
+VERCEL_DEPLOY_HOOK = "https://api.vercel.com/v1/integrations/deploy/prj_XXXXXXXX/HOOKID"
+
+# Usage:
+# 1) Copy this file to wrangler.toml
+# 2) Replace VERCEL_DEPLOY_HOOK with your actual hook URL
+# 3) Run `wrangler deploy` to publish
+# 4) Cron will invoke the Worker hourly; manual trigger at /trigger
