@@ -55,7 +55,10 @@ const generateSitemap = () => {
   const currentDate = getCurrentDate();
   console.log(`📅 Using current date: ${currentDate}`);
 
+  const generatedAtISO = new Date().toISOString();
   let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  // Harmless XML comment ensures content changes each run for hourly updates
+  sitemap += `<!-- generatedAt: ${generatedAtISO} -->\n`;
   sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
   routes.forEach(route => {

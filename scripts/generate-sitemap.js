@@ -50,8 +50,12 @@ function generateSitemap() {
   console.log('🚀 Generating sitemap...');
   console.log(`📅 Using current date: ${currentDate}`);
   
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+  const generatedAtISO = new Date().toISOString();
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  // Inject a harmless XML comment with a precise timestamp to ensure
+  // content changes on each run, enabling hourly updates and deployments.
+  sitemap += `<!-- generatedAt: ${generatedAtISO} -->\n`;
+  sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
   routes.forEach(route => {
     sitemap += `
