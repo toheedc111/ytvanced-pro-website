@@ -43,17 +43,14 @@ const routes = [
   { path: '/support', priority: '0.6', changefreq: 'monthly' }
 ];
 
-// Get current date in YYYY-MM-DD format
-const getCurrentDate = () => {
-  const date = new Date();
-  return date.toISOString().split('T')[0];
-};
+// Get current time as full ISO timestamp for hourly updates
+const getCurrentTimestamp = () => new Date().toISOString();
 
 // Generate sitemap XML
 const generateSitemap = () => {
   console.log('🚀 Generating sitemap...');
-  const currentDate = getCurrentDate();
-  console.log(`📅 Using current date: ${currentDate}`);
+  const currentTimestamp = getCurrentTimestamp();
+  console.log(`📅 Using current timestamp: ${currentTimestamp}`);
 
   const generatedAtISO = new Date().toISOString();
   let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
@@ -64,7 +61,7 @@ const generateSitemap = () => {
   routes.forEach(route => {
     sitemap += '  <url>\n';
     sitemap += `    <loc>${DOMAIN}${route.path}</loc>\n`;
-    sitemap += `    <lastmod>${currentDate}</lastmod>\n`;
+    sitemap += `    <lastmod>${currentTimestamp}</lastmod>\n`;
     sitemap += `    <changefreq>${route.changefreq}</changefreq>\n`;
     sitemap += `    <priority>${route.priority}</priority>\n`;
     sitemap += '  </url>\n';

@@ -45,10 +45,10 @@ const routes = [
 ];
 
 function generateSitemap() {
-  const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+  const currentTimestamp = new Date().toISOString(); // Full ISO timestamp for hourly updates
   
   console.log('🚀 Generating sitemap...');
-  console.log(`📅 Using current date: ${currentDate}`);
+  console.log(`📅 Using current timestamp: ${currentTimestamp}`);
   
   const generatedAtISO = new Date().toISOString();
   let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
@@ -61,7 +61,7 @@ function generateSitemap() {
     sitemap += `
   <url>
     <loc>${DOMAIN}${route.path}</loc>
-    <lastmod>${currentDate}</lastmod>
+    <lastmod>${currentTimestamp}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`;
